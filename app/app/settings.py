@@ -127,6 +127,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+AUTH_USER_MODEL = 'core.User'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_dist')
+
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'core.User'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend')
+]

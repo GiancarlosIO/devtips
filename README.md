@@ -3,7 +3,7 @@
 ### Backend:
 * docker
 * django 2
-* django-graphql
+* graphene-django
 
 ### Frontend
 * react
