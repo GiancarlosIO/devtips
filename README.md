@@ -1,4 +1,4 @@
-# A simple-app clone
+# A simple web page to publish devtips about react 😄
 ## Built with:
 ### Backend:
 * docker
