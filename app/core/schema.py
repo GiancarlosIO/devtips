@@ -1,22 +1,26 @@
 import graphene
+import graphql_jwt
 
 import users.schema
 import tips.schema
 
 
 class Query(
-        tips.schema.Query,
-        graphene.ObjectType,
-    ):
+    users.schema.Query,
+    tips.schema.Query,
+    graphene.ObjectType,
+):
     pass
 
 
 class Mutation(
-        users.schema.Mutation,
-        tips.schema.Mutation,
-        graphene.ObjectType,
-    ):
-    pass
+    users.schema.Mutation,
+    tips.schema.Mutation,
+    graphene.ObjectType,
+):
+    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    verify_token = graphql_jwt.Verify.Field()
+    refresh_token = graphql_jwt.Refresh.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
