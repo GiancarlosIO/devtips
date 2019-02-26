@@ -1,14 +1,21 @@
 import graphene
 
 import users.schema
-import notes.schema
+import tips.schema
 
 
-class Query(notes.schema.Query, graphene.ObjectType):
+class Query(
+        tips.schema.Query,
+        graphene.ObjectType,
+    ):
     pass
 
 
-class Mutation(users.schema.Mutation, graphene.ObjectType):
+class Mutation(
+        users.schema.Mutation,
+        tips.schema.Mutation,
+        graphene.ObjectType,
+    ):
     pass
 
 
