@@ -13,9 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf import settings
+from django.contrib.staticfiles.storage import staticfiles_storage
+from django.views.generic.base import RedirectView
 from django.contrib import admin
-from django.conf.urls.static import static
 from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 
@@ -27,4 +27,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
     path('', BaseView.as_view(), name='base'),
+    path('favicon.ico', RedirectView.as_view(
+            url=staticfiles_storage.url('favicon/favicon.ico'),
+        ),
+        name='favicon',
+    ),
 ]
