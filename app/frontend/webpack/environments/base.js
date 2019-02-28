@@ -44,7 +44,7 @@ const base = {
     ] : [],
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.graphql', '.js'], // the .js one should be always here!
+    extensions: ['.ts', '.tsx', '.graphql', '.js', '.mjs'], // the .js one should be always here!
     alias: {
       react: path.resolve(__dirname, '../../../../node_modules/react'),
       'styled-components': path.resolve(__dirname, '../../../../node_modules/styled-components'),

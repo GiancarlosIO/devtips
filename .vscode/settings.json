@@ -1,6 +1,19 @@
 {
+  "files.autoSave": "off",
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  "html.format.enable": false,
   "python.pythonPath": "/usr/local/bin/python3",
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
-  "python.linting.enabled": true
+  "python.linting.enabled": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "Babel Javascript",
+    {"language": "typescriptreact", "autoFix": true},
+  ],
+  "eslint.autoFixOnSave": true,
+  "eslint.alwaysShowStatus": true,
 }

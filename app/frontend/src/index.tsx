@@ -1,9 +1,17 @@
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
-ReactDOM.render(
+interface Props {
+  name: string;
+}
+const HelloWord: React.FunctionComponent<Props> = ({
+  name,
+}): React.ReactElement => (
   <div>
-    <h1>Hello world!</h1>
-  </div>,
-  document.querySelector('#app'),
+    {Array.from({ length: 10 }).map(() => (
+      <h2>{name}</h2>
+    ))}
+  </div>
 );
+
+ReactDOM.render(<HelloWord name="Gian" />, document.querySelector('#app'));
