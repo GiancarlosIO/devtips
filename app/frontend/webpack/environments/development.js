@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const WebpackNotifierPlugin = require('webpack-notifier');
 
 const base = require('./base');
 
@@ -54,6 +55,7 @@ const development = merge(base, {
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new WebpackNotifierPlugin(),
     /*
       We don't need to add the HotModuleReplacementPlugin here
       because the --hot flag add it.
