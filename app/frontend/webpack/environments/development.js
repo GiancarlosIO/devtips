@@ -59,7 +59,7 @@ const development = merge(base, {
       because the --hot flag add it.
     */
     // new webpack.HotModuleReplacementPlugin(),
-  ]
+  ],
 });
 
 module.exports = development;
