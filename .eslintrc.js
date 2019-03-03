@@ -30,6 +30,9 @@ module.exports = {
     "es6": true,
     "jest": true
   },
+  "globals": {
+    "cy": 'readonly',
+  },
   "rules": {
     "prettier/prettier": [
       "error",
@@ -41,6 +44,7 @@ module.exports = {
         "arrowParens": "avoid"
       }
     ],
+    "spaced-comment": 0,
     "no-param-reassign": [
       2,
       {
