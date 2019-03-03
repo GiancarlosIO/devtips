@@ -161,7 +161,7 @@ module.exports = {
       "@typescript-eslint/type-annotation-spacing": "off",
       // plugin:@typescript-eslint/recommended rules
       "@typescript-eslint/restrict-plus-operands": "error",
-      "@typescript-eslint/promise-function-async": "error",
+      "@typescript-eslint/promise-function-async": 0,
       "@typescript-eslint/prefer-namespace-keyword": "error",
       "@typescript-eslint/prefer-interface": "error",
       "@typescript-eslint/prefer-function-type": "error",
