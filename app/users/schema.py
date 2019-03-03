@@ -13,6 +13,7 @@ class UserInput(graphene.InputObjectType):
 class UserType(DjangoObjectType):
     class Meta:
         model = get_user_model()
+        exclude_fields = ('password',)
 
 
 class CreateUser(graphene.Mutation):

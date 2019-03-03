@@ -1,17 +1,21 @@
+import 'unfetch/polyfill';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
+import { Router } from '@reach/router';
+import { ApolloProvider } from 'react-apollo';
 
-interface Props {
-  name: string;
-}
-const HelloWord: React.FunctionComponent<Props> = ({
-  name,
-}): React.ReactElement => (
-  <div>
-    {Array.from({ length: 10 }).map(() => (
-      <h2>{name}</h2>
-    ))}
-  </div>
+// utisl
+import ApolloClient from './ApolloClient';
+
+// apps/pages
+import Authentication from './pages/authentication';
+
+const App: React.FunctionComponent = (): React.ReactElement => (
+  <ApolloProvider client={ApolloClient}>
+    <Router>
+      <Authentication path="/auth/*" />
+    </Router>
+  </ApolloProvider>
 );
 
-ReactDOM.render(<HelloWord name="Gian" />, document.querySelector('#app'));
+ReactDOM.render(<App />, document.querySelector('#app'));
