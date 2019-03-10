@@ -1,13 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 const { isProduction } = require('../configuration');
-
 const loaders = require('../loaders');
 
 const base = {
@@ -17,12 +15,20 @@ const base = {
   optimization: {
     removeAvailableModules: isProduction,
     removeEmptyChunks: isProduction,
+    runtimeChunk: 'single',
     splitChunks: {
       name: !isProduction,
       chunks: 'async',
       minSize: 30000,
       maxAsyncRequests: 5,
       maxInitialRequests: 3,
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/](react|react-dom|styled-components|urql|react-router)[\\/]/,
+          chunks: 'all',
+        },
+      },
     },
     minimizer: isProduction
       ? [
