@@ -68,7 +68,14 @@ const base = {
     chunkFilename: `[name]${isProduction ? '.[chunkhash:8]' : ''}.chunk.min.js`,
   },
   module: {
-    rules: loaders,
+    rules: [
+      ...loaders,
+      {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+      },
+    ],
   },
   plugins: [
     new webpack.DefinePlugin({
