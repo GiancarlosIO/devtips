@@ -53,7 +53,7 @@ const development = merge(base, {
     hints: false,
   },
   plugins: [
-    new webpack.NamedModulesPlugin(),
+    // new webpack.NamedModulesPlugin(), => by default in webpack development mode
     new webpack.NoEmitOnErrorsPlugin(),
     new WebpackNotifierPlugin(),
     /*

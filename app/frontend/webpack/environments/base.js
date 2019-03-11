@@ -25,7 +25,7 @@ const base = {
       cacheGroups: {
         vendor: {
           name: 'vendor',
-          test: /[\\/]node_modules[\\/](react|react-dom|styled-components|urql|react-router)[\\/]/,
+          test: /[\\/]node_modules[\\/](react|react-dom|styled-components|urql|@reach\/router)[\\/]/,
           chunks: 'all',
         },
       },
@@ -68,7 +68,7 @@ const base = {
   entry: path.resolve(__dirname, '../../src/index.tsx'),
   output: {
     path: path.join(__dirname, '../../dist'),
-    publicPath: '/static/dist',
+    publicPath: '/static/dist/',
     pathinfo: false,
     filename: `[name]${isProduction ? '.[hash:8]' : ''}.min.js`,
     chunkFilename: `[name]${isProduction ? '.[chunkhash:8]' : ''}.chunk.min.js`,

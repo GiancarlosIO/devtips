@@ -6,13 +6,10 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import httpLink from './links/httpLink';
 import authLink from './links/authLink';
 import errorLink from './links/errorLink';
+import csrfTokenLink from './links/csrfLink';
 
 const Client = new ApolloClient({
-  link: ApolloLink.from([
-    errorLink,
-    authLink,
-    httpLink
-  ]),
+  link: ApolloLink.from([errorLink, csrfTokenLink, authLink, httpLink]),
   cache: new InMemoryCache(),
 });
 
