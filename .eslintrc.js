@@ -44,6 +44,7 @@ module.exports = {
         "arrowParens": "avoid"
       }
     ],
+    "no-unused-vars": 0,
     "spaced-comment": 0,
     "no-param-reassign": [
       2,
@@ -155,6 +156,7 @@ module.exports = {
      * Enable your own typescript rules.
      */
     rules: {
+      "no-unused-vars": false,
       // prettier/@typescript-eslint rules
       "@typescript-eslint/indent": "off",
       "@typescript-eslint/member-delimiter-style": "off",

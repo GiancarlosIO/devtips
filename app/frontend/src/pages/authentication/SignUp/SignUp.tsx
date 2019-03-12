@@ -2,7 +2,11 @@
 import * as React from 'react';
 import { useMutation } from 'urql';
 import { Formik, Form, Field } from 'formik';
+import { Redirect } from '@reach/router'
 import { RouteComponentProps } from '@reach/router';
+import { Schema } from 'yup';
+
+import { useUserContext } from 'src/contexts/UserContext';
 
 import { styled } from 'src/theme';
 import { Container } from 'src/ui/Grid';
@@ -11,7 +15,8 @@ import Input from '../ui/input';
 // import SignupSchema from './SignupSchema';
 import { ErrorMessage } from './Styles';
 
-import CREATE_USER_MUTATION from './graphql/createUserMutation.graphql';
+import * as CREATE_USER_MUTATION from './graphql/createUserMutation.graphql';
+import GET_AUTH_TOKEN_MUTATION from './graphql/authTokenMutation.graphql';
 
 // const CREATE_USER_MUTATION = `
 //   mutation createUser($email: String!, $password: String!){
@@ -62,26 +67,38 @@ type valueType = {
 };
 
 type UserMutationResponse = {
-  data: {
-    createUser: {
-      user: {
-        email: string;
-        id: string;
-      };
+  createUser: {
+    user: {
+      email: string;
+      id: string;
     };
+  };
+};
+
+type AuthTokenMutationResponse = {
+  tokenAuth: {
+    token: string;
   };
 };
 
 const Signup: React.FunctionComponent<
   RouteComponentProps
 > = (): React.ReactElement => {
-  const [signupSchema, setSignupSchem] = React.useState(null);
+  const userContext = useUserContext();
+  const [signupSchema, setSignupSchem] = React.useState<any>(null);
+  const [_, executeTokenMutation] = useMutation<AuthTokenMutationResponse>(
+    GET_AUTH_TOKEN_MUTATION,
+  );
   const [res, executeMutation] = useMutation<UserMutationResponse>(
     CREATE_USER_MUTATION,
   );
 
-  if (res.error) {
-    return <h1>Error!</h1>;
+  console.log({ userContext });
+
+  if (userContext.user.email && userContext.user.token) {
+    return (
+      <Redirect noThrow from="signup" to="home" />
+    )
   }
 
   return (
@@ -97,7 +114,14 @@ const Signup: React.FunctionComponent<
           executeMutation(values).then(response => {
             // we need to run another mutation here
             console.log({ response });
-            console.log({ response });
+            executeTokenMutation(values).then(authResponseMutation => {
+              console.log({ authResponseMutation });
+              if (authResponseMutation.data) {
+                if (authResponseMutation.data.tokenAuth)
+                userContext.setUser({ email: values.email, token: authResponseMutation.data.tokenAuth.token })
+              }
+            });
+            // userContext.setUser({ v })
           });
         }}
       >
@@ -107,7 +131,7 @@ const Signup: React.FunctionComponent<
             onMouseEnter={() => {
               import(/* webpackChunkName: "signupSchema-yup" */ './SignupSchema').then(
                 module => {
-                  setSignupSchem(module.default);
+                  setSignupSchem(module.default as Schema<{ email: string; password: string }>);
                 },
               );
             }}

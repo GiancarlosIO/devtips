@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Router } from '@reach/router';
+import { Router, RouteComponentProps } from '@reach/router';
 import { Provider, createClient } from 'urql';
 import { hot } from 'react-hot-loader/root';
 
@@ -8,6 +8,9 @@ import Authentication from 'src/pages/authentication';
 
 // themes
 import theme, { ThemeProvider, createGlobalStyle } from 'src/theme';
+
+// contexts
+import { UserContextProvider } from 'src/contexts/UserContext';
 
 const GlobalStyle = createGlobalStyle`
   html, body, * {
@@ -20,15 +23,22 @@ const client = createClient({
   url: '/graphql/',
 });
 
+const Home: React.FunctionComponent<RouteComponentProps> = () => (
+  <h1>HomePage</h1>
+)
+
 const App: React.FunctionComponent = (): React.ReactElement => (
   <ThemeProvider theme={theme}>
     <Provider value={client}>
-      <div>
-        <Router>
-          <Authentication path="/auth/*" />
-        </Router>
-        <GlobalStyle />
-      </div>
+      <UserContextProvider>
+        <div>
+          <Router>
+            <Authentication path="/auth/*" />
+            <Home path="/home" />
+          </Router>
+          <GlobalStyle />
+        </div>
+      </UserContextProvider>
     </Provider>
   </ThemeProvider>
 );
