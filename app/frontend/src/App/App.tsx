@@ -34,7 +34,7 @@ const App: React.FunctionComponent = (): React.ReactElement => (
         <div>
           <Router>
             <Authentication path="/auth/*" />
-            <Home path="/home" />
+            <Home path="/" />
           </Router>
           <GlobalStyle />
         </div>

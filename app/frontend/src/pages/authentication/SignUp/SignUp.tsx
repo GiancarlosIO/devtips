@@ -15,24 +15,8 @@ import Input from '../ui/input';
 // import SignupSchema from './SignupSchema';
 import { ErrorMessage } from './Styles';
 
-import * as CREATE_USER_MUTATION from './graphql/createUserMutation.graphql';
+import CREATE_USER_MUTATION from './graphql/createUserMutation.graphql';
 import GET_AUTH_TOKEN_MUTATION from './graphql/authTokenMutation.graphql';
-
-// const CREATE_USER_MUTATION = `
-//   mutation createUser($email: String!, $password: String!){
-//     createUser(userData: {
-//       email: $email,
-//       password: $password
-//     }) {
-//       user {
-//         id
-//         email
-//       }
-//     }
-//   }
-// `;
-
-// interface SignUpProps extends RouteComponentProps {}
 
 const CustomContainer = styled(Container)`
   grid-template-columns: auto 500px auto;
@@ -92,12 +76,16 @@ const Signup: React.FunctionComponent<
   const [res, executeMutation] = useMutation<UserMutationResponse>(
     CREATE_USER_MUTATION,
   );
-
-  console.log({ userContext });
+  const [errorMutations, setErrorMutation] = React.useState('');
+  React.useEffect(() => {
+    if (res.fetching) {
+      setErrorMutation('');
+    }
+  }, [res.fetching]);
 
   if (userContext.user.email && userContext.user.token) {
     return (
-      <Redirect noThrow from="signup" to="home" />
+      <Redirect noThrow from="signup" to="/" />
     )
   }
 
@@ -112,16 +100,23 @@ const Signup: React.FunctionComponent<
         validationSchema={signupSchema}
         onSubmit={values => {
           executeMutation(values).then(response => {
-            // we need to run another mutation here
-            console.log({ response });
-            executeTokenMutation(values).then(authResponseMutation => {
-              console.log({ authResponseMutation });
-              if (authResponseMutation.data) {
-                if (authResponseMutation.data.tokenAuth)
-                userContext.setUser({ email: values.email, token: authResponseMutation.data.tokenAuth.token })
-              }
-            });
-            // userContext.setUser({ v })
+            // we need to run another mutation here to get the auth token
+            if (!response.error) {
+              executeTokenMutation(values).then(authResponseMutation => {
+                if (authResponseMutation.error) {
+                  console.log('Error to get the auth token', authResponseMutation.error );
+                  setErrorMutation(authResponseMutation.error.message.replace(/\[GraphQL\]\s/, ''));
+                } else if (authResponseMutation.data) {
+                  if (authResponseMutation.data.tokenAuth)
+                  userContext.setUser({ email: values.email, token: authResponseMutation.data.tokenAuth.token })
+                }
+              });
+            } else {
+              console.log('Error to createUser', response.error.message);
+              setErrorMutation(response.error.message.replace(/\[GraphQL\]\s/, ''));
+            }
+          }).catch(error => {
+            console.log('Error to create user', error);
           });
         }}
       >
@@ -176,6 +171,7 @@ const Signup: React.FunctionComponent<
             >
               Signup
             </ButtonStyled>
+            {errorMutations && <ErrorMessage style={{ marginTop: 20 }}>{errorMutations}</ErrorMessage>}
           </FormStyled>
         )}
       </Formik>
