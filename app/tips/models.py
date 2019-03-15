@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.utils.text import slugify
 
@@ -14,5 +16,7 @@ class Tip(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        unique_id = uuid.uuid4().hex
+        slug = slugify(self.title)
+        self.slug = f'{slug}-{unique_id}'
         super(Tip, self).save(*args, **kwargs)
