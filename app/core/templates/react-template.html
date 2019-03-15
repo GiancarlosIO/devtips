@@ -23,9 +23,13 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{% static 'favicon/ms-icon-144x144.png' %}">
     <meta name="theme-color" content="#ffffff">
+    <link rel="preload" href="https://necolas.github.io/normalize.css/latest/normalize.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" as="style">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
+    <link href="https://necolas.github.io/normalize.css/latest/normalize.css" rel="stylesheet">
   </head>
   <body>
     <div id="app"></div>
     {% comment %} <script src="{% static 'index.js' %}"></script> {% endcomment %}
-  <script type="text/javascript" src="http://localhost:9000/static/dist/main.min.js"></script></body>
+  <script type="text/javascript" src="http://localhost:9000/static/dist/runtime.min.js"></script><script type="text/javascript" src="http://localhost:9000/static/dist/vendor.chunk.js"></script><script type="text/javascript" src="http://localhost:9000/static/dist/main.chunk.js"></script></body>
 </html>

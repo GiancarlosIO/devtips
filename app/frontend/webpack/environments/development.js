@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const WebpackNotifierPlugin = require('webpack-build-notifier');
 
 const base = require('./base');
 
@@ -52,14 +53,15 @@ const development = merge(base, {
     hints: false,
   },
   plugins: [
-    new webpack.NamedModulesPlugin(),
+    // new webpack.NamedModulesPlugin(), => by default in webpack development mode
     new webpack.NoEmitOnErrorsPlugin(),
+    new WebpackNotifierPlugin(),
     /*
       We don't need to add the HotModuleReplacementPlugin here
       because the --hot flag add it.
     */
     // new webpack.HotModuleReplacementPlugin(),
-  ]
+  ],
 });
 
 module.exports = development;

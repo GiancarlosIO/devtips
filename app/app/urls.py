@@ -26,10 +26,12 @@ from core.views import BaseView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
-    path('', BaseView.as_view(), name='base'),
     path('favicon.ico', RedirectView.as_view(
             url=staticfiles_storage.url('favicon/favicon.ico'),
         ),
         name='favicon',
     ),
+    path('', BaseView.as_view(), name='base'),
+    path('<path:name>', BaseView.as_view(), name='base'),
+    # path('', BaseView.as_view(), name='base'),
 ]

@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 
 import graphene
+from graphql import GraphQLError
 from graphene_django import DjangoObjectType
 
 
@@ -13,6 +14,7 @@ class UserInput(graphene.InputObjectType):
 class UserType(DjangoObjectType):
     class Meta:
         model = get_user_model()
+        exclude_fields = ('password',)
 
 
 class CreateUser(graphene.Mutation):
@@ -23,6 +25,9 @@ class CreateUser(graphene.Mutation):
 
     @staticmethod
     def mutate(root, info, user_data=None):
+        if get_user_model().objects.filter(email=user_data['email']).first():
+            raise GraphQLError('This email is already in use')
+
         user = get_user_model().objects.create_user(**user_data)
         return CreateUser(user=user)
 

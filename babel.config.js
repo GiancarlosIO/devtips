@@ -1,25 +1,31 @@
 module.exports = api => {
   const isProduction = api.env('production');
-  const styledPlugin = ['styled-components', {
-    ssr: true,
-    displayName: true,
-    minify: true,
-    pure: true,
-  }];
+  const styledPlugin = [
+    'styled-components',
+    {
+      ssr: true,
+      displayName: true,
+      minify: true,
+      pure: true,
+    },
+  ];
 
   return {
     presets: [
-      ['@babel/preset-env', {
-        modules: false,
-        useBuiltIns: 'entry',
-        targets: isProduction
-          ? ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9']
-          : [
-              'last 2 chrome versions',
-              'last 2 firefox versions',
-              'last 2 edge versions',
-            ],
-      }],
+      [
+        '@babel/preset-env',
+        {
+          modules: false,
+          useBuiltIns: 'entry',
+          targets: isProduction
+            ? ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9']
+            : [
+                'last 2 chrome versions',
+                'last 2 firefox versions',
+                'last 2 edge versions',
+              ],
+        },
+      ],
       '@babel/preset-react',
       '@babel/preset-typescript',
     ],
@@ -54,6 +60,6 @@ module.exports = api => {
           'babel-plugin-transform-remove-debugger',
         ],
       },
-    }
+    },
   };
 };
