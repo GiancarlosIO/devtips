@@ -8,8 +8,8 @@ import { useUserContext } from 'src/contexts/UserContext';
 import AuthForm from '../Shared/AuthForm';
 import UserProtectedComponent from 'src/Shared/Redirects/UserProtectedComponent';
 
-import CREATE_USER_MUTATION from './graphql/createUserMutation.graphql';
-import GET_AUTH_TOKEN_MUTATION from './graphql/authTokenMutation.graphql';
+import CREATE_USER_MUTATION from '../graphql/createUserMutation.graphql';
+import GET_AUTH_TOKEN_MUTATION from '../graphql/authTokenMutation.graphql';
 
 type UserMutationResponse = {
   createUser: {
