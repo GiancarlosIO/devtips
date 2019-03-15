@@ -1,12 +1,17 @@
 import uuid
 
 from django.db import models
-from django.utils.text import slugify
+# from django.utils.text import slugify
+from django.contrib.auth import get_user_model
 
 
 class Tip(models.Model):
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+    )
     title = models.CharField(max_length=255, null=False)
-    slug = models.SlugField(unique=True, null=True, blank=True)
+    slug = models.CharField(max_length=255, unique=True, null=True, blank=True)
     description = models.TextField(blank=True)
 
     def __str__(self):
@@ -17,6 +22,6 @@ class Tip(models.Model):
 
     def save(self, *args, **kwargs):
         unique_id = uuid.uuid4().hex
-        slug = slugify(self.title)
-        self.slug = f'{slug}-{unique_id}'
+        # slug = slugify(self.title)
+        self.slug = unique_id
         super(Tip, self).save(*args, **kwargs)
