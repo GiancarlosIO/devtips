@@ -156,7 +156,7 @@ module.exports = {
      * Enable your own typescript rules.
      */
     rules: {
-      "no-unused-vars": false,
+      "no-unused-vars": 0,
       // prettier/@typescript-eslint rules
       "@typescript-eslint/indent": "off",
       "@typescript-eslint/member-delimiter-style": "off",
@@ -189,12 +189,12 @@ module.exports = {
       "@typescript-eslint/no-empty-interface": "error",
       "@typescript-eslint/no-array-constructor": "error",
       "@typescript-eslint/no-angle-bracket-type-assertion": "error",
-      "@typescript-eslint/member-ordering": false,
+      "@typescript-eslint/member-ordering": 0,
       "@typescript-eslint/member-naming": "error",
       "@typescript-eslint/interface-name-prefix": "error",
       "@typescript-eslint/generic-type-naming": "error",
       "@typescript-eslint/explicit-member-accessibility": "error",
-      "@typescript-eslint/explicit-function-return-type": "error",
+      "@typescript-eslint/explicit-function-return-type": 0,
       "@typescript-eslint/class-name-casing": "error",
       "@typescript-eslint/camelcase": "error",
       "@typescript-eslint/ban-ts-ignore": "error",
