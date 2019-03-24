@@ -1,0 +1,10 @@
+query tips {
+  tips {
+    id
+    user {
+      email
+    }
+    title
+    slug
+  }
+}
