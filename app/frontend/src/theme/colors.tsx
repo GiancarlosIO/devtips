@@ -6,3 +6,5 @@ export const lightblue = '#8ddfff';
 export const lightpurple = '#8cc2ff';
 export const purple = '#7fa1ff';
 export const whiteblue = '#f0f9ff';
+
+export const innerBackgroundColor = 'rgb(33, 40, 45)';

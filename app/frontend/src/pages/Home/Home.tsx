@@ -2,19 +2,23 @@ import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { useQuery } from 'urql';
 
+import { styled } from 'src/theme';
 import MainLayout from 'src/layouts/MainLayout';
 import GET_TIPS_QUERY from './graphql/getTips.graphql';
 
-type UserType = {
-  email: string;
-};
+import { TipType } from './types';
+import Tip from './components/Tip';
 
-type TipType = {
-  user: UserType;
-  id: string;
-  slug: string;
-  title: string;
-};
+const TipList = styled.div`
+  background-color: ${props => props.theme.colors.innerBackgroundColor};
+  border: 1px solid ${props => props.theme.colors.whiteblue};
+  border-radius: 8px;
+  & > div {
+    &:not(:first-child) {
+      border-top: 1px solid ${props => props.theme.colors.whiteblue};1
+    }
+  }
+`;
 
 type QueryResponse = {
   tips: TipType[];
@@ -33,7 +37,13 @@ const Home: React.FunctionComponent<RouteComponentProps> = () => {
       return <h2>An error has ocurred - {error}</h2>;
     }
 
-    return data.tips.map(tip => <p key={tip.id}>{tip.title}</p>);
+    return (
+      <TipList>
+        {data.tips.map(tip => (
+          <Tip {...tip} key={tip.id} />
+        ))}
+      </TipList>
+    );
   };
 
   return <MainLayout>{render()}</MainLayout>;
