@@ -1,16 +1,16 @@
 import * as React from 'react';
 
-type UserType = {
+type UserType = null | {
   email: string | null;
   token: string | null;
 };
 
-type UserContext = {
-  user: UserType;
+type UserContextType = {
+  user: null | UserType;
   setUser: React.Dispatch<React.SetStateAction<UserType>>;
 };
 
-let userDefault = { email: null, token: null };
+let userDefault = null; // { email: null, token: null };
 
 const userFromLocalStorage = localStorage.getItem('user');
 
@@ -18,12 +18,12 @@ if (userFromLocalStorage) {
   userDefault = JSON.parse(userFromLocalStorage);
 }
 
-let userContextDefault = {
+const userContextDefault = {
   user: userDefault,
   setUser: () => null,
 };
 
-const UserContext = React.createContext<UserContext>(userContextDefault);
+const UserContext = React.createContext<UserContextType>(userContextDefault);
 
 export const UserContextProvider: React.FunctionComponent = ({
   children,
@@ -32,7 +32,7 @@ export const UserContextProvider: React.FunctionComponent = ({
 
   React.useEffect(() => {
     localStorage.setItem('user', JSON.stringify(user));
-  }, [user.email, user.token]);
+  }, [user]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
@@ -40,4 +40,5 @@ export const UserContextProvider: React.FunctionComponent = ({
     </UserContext.Provider>
   );
 };
-export const useUserContext = (): UserContext => React.useContext(UserContext);
+export const useUserContext = (): UserContextType =>
+  React.useContext(UserContext);
