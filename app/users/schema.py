@@ -14,7 +14,7 @@ class UserInput(graphene.InputObjectType):
 class UserType(DjangoObjectType):
     class Meta:
         model = get_user_model()
-        exclude_fields = ('password',)
+        exclude_fields = ('password', 'last_login')
 
 
 class CreateUser(graphene.Mutation):
@@ -41,8 +41,8 @@ class Query(graphene.ObjectType):
 
     def resolve_me(self, info):
         user = info.context.user
-        if user.is_anonymous:
-            raise Exception('Not logged in!')
+        if user.is_anonymous or not user.is_authenticated:
+            return None
         return user
 
 
