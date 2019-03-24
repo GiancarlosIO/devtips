@@ -1,16 +1,21 @@
 import * as React from 'react';
-import { Router, RouteComponentProps } from '@reach/router';
+import { Router } from '@reach/router';
 import { Provider, createClient } from 'urql';
 import { hot } from 'react-hot-loader/root';
 
 // apps/pages
-import Authentication from 'src/pages/authentication';
+import Authentication from 'src/pages/Authentication';
+import Home from 'src/pages/Home';
 
 // themes
 import theme, { ThemeProvider, createGlobalStyle } from 'src/theme';
 
 // contexts
 import { UserContextProvider } from 'src/contexts/UserContext';
+
+// utils / helpers
+import getUserFromLocalStorage from 'src/utils/getUserFromLocalStorage';
+// import getCookie from 'src/utils/getCookie';
 
 const GlobalStyle = createGlobalStyle`
   html, body, * {
@@ -21,11 +26,30 @@ const GlobalStyle = createGlobalStyle`
 
 const client = createClient({
   url: '/graphql/',
-});
+  fetchOptions: () => {
+    // const csrftoken = getCookie('csrftoken');
+    const user = getUserFromLocalStorage();
+    const headers = { Authorization: '', 'X-CSRFToken': '' };
 
-const Home: React.FunctionComponent<RouteComponentProps> = () => (
-  <h1>HomePage</h1>
-)
+    if (user) {
+      headers.Authorization = `JWT ${user.token}`;
+    } else {
+      delete headers.Authorization;
+    }
+
+    // if (csrftoken) {
+    //   headers['X-CSRFToken'] = csrftoken;
+    // } else {
+    //   delete headers['X-CSRFToken'];
+    // }
+
+    return {
+      headers: {
+        ...headers,
+      },
+    };
+  },
+});
 
 const App: React.FunctionComponent = (): React.ReactElement => (
   <ThemeProvider theme={theme}>
