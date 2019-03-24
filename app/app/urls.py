@@ -32,6 +32,7 @@ urlpatterns = [
         name='favicon',
     ),
     path('', BaseView.as_view(), name='base'),
-    path('<path:name>', BaseView.as_view(), name='base'),
+    path('/', BaseView.as_view(), name='base'),
+    path('<path:name>/', BaseView.as_view(), name='base'),
     # path('', BaseView.as_view(), name='base'),
 ]
