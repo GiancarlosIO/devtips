@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 from django.contrib import admin
@@ -23,7 +25,7 @@ from graphene_django.views import GraphQLView
 
 from core.views import BaseView
 
-urlpatterns = [
+urls_base = [
     path('admin/', admin.site.urls),
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
     path('favicon.ico', RedirectView.as_view(
@@ -31,8 +33,19 @@ urlpatterns = [
         ),
         name='favicon',
     ),
+    # path('', BaseView.as_view(), name='base'),
+]
+
+catch_all_urls = [
     path('', BaseView.as_view(), name='base'),
     path('/', BaseView.as_view(), name='base'),
     path('<path:name>/', BaseView.as_view(), name='base'),
-    # path('', BaseView.as_view(), name='base'),
 ]
+
+if settings.DEBUG:
+    urls_base = urls_base + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+urls_base = urls_base + catch_all_urls
+
+urlpatterns = urls_base

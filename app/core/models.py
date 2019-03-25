@@ -30,6 +30,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         name = models.CharField(max_length=255, null=True, blank=False)
         is_active = models.BooleanField(default=True)
         is_staff = models.BooleanField(default=False)
+        profile_image = models.ImageField(upload_to='user_profiles', blank=True)
 
         objects = UserManager()
 

@@ -23,6 +23,12 @@ class UserAdmin(BaseUserAdmin):
                 'fields': ('last_login',)
             }
         ),
+        (
+            _('Profile'),
+            {
+                'fields': ('profile_image',),
+            }
+        )
     )
 
     add_fieldsets = (
