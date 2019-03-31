@@ -105,4 +105,4 @@ venv.bak/
 node_modules
 
 # webpack
-app/app/core/static/js
+app/core/static/js
