@@ -67,8 +67,10 @@ const base = {
   },
   entry: path.resolve(__dirname, '../../src/index.tsx'),
   output: {
-    path: path.join(__dirname, '../../dist'),
-    publicPath: '/static/dist/',
+    path: path.join(__dirname, '../../../core/static/js'),
+    publicPath: isProduction
+      ? 'https://devtipsgio.s3.amazonaws.com/static/js/'
+      : '/static/js/',
     pathinfo: false,
     filename: `[name]${isProduction ? '.[hash:8]' : ''}.min.js`,
     chunkFilename: `[name]${isProduction ? '.[chunkhash:8]' : ''}.chunk.min.js`,

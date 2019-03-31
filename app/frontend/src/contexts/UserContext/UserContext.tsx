@@ -10,12 +10,21 @@ type UserContextType = {
   setUser: React.Dispatch<React.SetStateAction<UserType>>;
 };
 
+const LOCALSTORAGE_KEYS = {
+  USER: 'crehana.user',
+};
+
 let userDefault = null; // { email: null, token: null };
 
-const userFromLocalStorage = localStorage.getItem('user');
+const userFromLocalStorage = localStorage.getItem(LOCALSTORAGE_KEYS.USER);
 
 if (userFromLocalStorage) {
-  userDefault = JSON.parse(userFromLocalStorage);
+  try {
+    userDefault = JSON.parse(userFromLocalStorage);
+  } catch (e) {
+    localStorage.removeItem(LOCALSTORAGE_KEYS.USER);
+    userDefault = null;
+  }
 }
 
 const userContextDefault = {
@@ -31,7 +40,7 @@ export const UserContextProvider: React.FunctionComponent = ({
   const [user, setUser] = React.useState<UserType>(userDefault);
 
   React.useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem(LOCALSTORAGE_KEYS.USER, JSON.stringify(user));
   }, [user]);
 
   return (

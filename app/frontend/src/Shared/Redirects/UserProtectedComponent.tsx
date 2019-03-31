@@ -14,18 +14,16 @@ type UserPublicComponentProps = {
  * @param currentPath - the current router path.
  * @param redirectTo - The route to redirect if the user is authenticated.
  */
-const UserPublicComponent: React.FunctionComponent<UserPublicComponentProps> = ({
-  children,
-  currentPath,
-  redirectTo,
-}) => {
+const UserPublicComponent: React.FunctionComponent<
+  UserPublicComponentProps
+> = ({ children, currentPath, redirectTo }) => {
   const userContext = useUserContext();
 
-  if (userContext.user.email && userContext.user.token) {
-    return <Redirect noThrow from={currentPath} to={redirectTo} />
+  if (userContext.user && userContext.user.email && userContext.user.token) {
+    return <Redirect noThrow from={currentPath} to={redirectTo} />;
   }
 
   return <div>{children}</div>;
-}
+};
 
 export default UserPublicComponent;

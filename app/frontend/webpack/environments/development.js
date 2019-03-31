@@ -5,7 +5,7 @@ const WebpackNotifierPlugin = require('webpack-build-notifier');
 const base = require('./base');
 
 const PORT = 9000;
-const PUBLIC_DEVELOPMENT_PATH = `http://localhost:${PORT}/static/dist/`;
+const PUBLIC_DEVELOPMENT_PATH = `http://localhost:${PORT}/static/js/`;
 const development = merge(base, {
   output: {
     publicPath: PUBLIC_DEVELOPMENT_PATH,
