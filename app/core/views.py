@@ -8,9 +8,8 @@ class BaseView(TemplateView):
         'STATIC_URL': settings.STATIC_URL,
     }
 
-    def get_context_data(self):
-        context_data = {
-            'env': self._env_vars,
-        }
+    def get_context_data(self, **kwargs):
+        context_data = super(BaseView, self).get_context_data(**kwargs)
+        context_data['env'] = self._env_vars
 
         return context_data
