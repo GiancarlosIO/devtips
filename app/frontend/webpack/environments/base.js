@@ -8,6 +8,10 @@ const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const { isProduction } = require('../configuration');
 const loaders = require('../loaders');
 
+const STATIC_URL = isProduction
+  ? 'https://devtipsgio.s3.amazonaws.com/static/js/'
+  : '/static/js/';
+
 const base = {
   target: 'web',
   mode: isProduction ? 'production' : 'development',
@@ -68,9 +72,7 @@ const base = {
   entry: path.resolve(__dirname, '../../src/index.tsx'),
   output: {
     path: path.join(__dirname, '../../../core/static/js'),
-    publicPath: isProduction
-      ? 'https://devtipsgio.s3.amazonaws.com/static/js/'
-      : '/static/js/',
+    publicPath: STATIC_URL,
     pathinfo: false,
     filename: `[name]${isProduction ? '.[hash:8]' : ''}.min.js`,
     chunkFilename: `[name]${isProduction ? '.[chunkhash:8]' : ''}.chunk.min.js`,
@@ -88,7 +90,7 @@ const base = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      STATIC_URL: JSON.stringify('/static/'),
+      STATIC_URL: JSON.stringify(STATIC_URL),
     }),
     new HtmlWebpackPlugin({
       filename: path.join(
