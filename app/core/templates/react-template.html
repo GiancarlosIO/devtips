@@ -30,6 +30,9 @@
   </head>
   <body>
     <div id="app"></div>
+    <script>
+      window.CREH_STATIC_URL = "{{ env.STATIC_URL }}"
+    </script>
     {% comment %} <script src="{% static 'index.js' %}"></script> {% endcomment %}
   <script type="text/javascript" src="http://localhost:9000/static/dist/runtime.min.js"></script><script type="text/javascript" src="http://localhost:9000/static/dist/vendor.chunk.js"></script><script type="text/javascript" src="http://localhost:9000/static/dist/main.chunk.js"></script></body>
 </html>
