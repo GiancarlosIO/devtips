@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { LOCALSTORAGE_KEYS } from 'src/Shared/constants';
+
 type UserType = null | {
   email: string | null;
   token: string | null;
@@ -8,10 +10,6 @@ type UserType = null | {
 type UserContextType = {
   user: null | UserType;
   setUser: React.Dispatch<React.SetStateAction<UserType>>;
-};
-
-const LOCALSTORAGE_KEYS = {
-  USER: 'crehana.user',
 };
 
 let userDefault = null; // { email: null, token: null };

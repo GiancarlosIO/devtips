@@ -29,14 +29,13 @@ const client = createClient({
   fetchOptions: () => {
     // const csrftoken = getCookie('csrftoken');
     const user = getUserFromLocalStorage();
-    const headers = { Authorization: '', 'X-CSRFToken': '' };
+    const headers = { Authorization: '' };
 
     if (user) {
       headers.Authorization = `JWT ${user.token}`;
-    } else {
-      delete headers.Authorization;
     }
 
+    // we don't need this because we are disabling the csrf to all graphql requests
     // if (csrftoken) {
     //   headers['X-CSRFToken'] = csrftoken;
     // } else {

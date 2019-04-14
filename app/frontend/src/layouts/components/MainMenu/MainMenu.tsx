@@ -17,8 +17,6 @@ const Right = styled.div`
 const MainMenu: React.FunctionComponent = () => {
   const userContext = useUserContext();
 
-  console.log({ user: userContext.user });
-
   return (
     <Container>
       <div>DevTips!</div>

@@ -1,5 +1,7 @@
+import { LOCALSTORAGE_KEYS } from 'src/Shared/constants';
+
 const getUserFromLocalStorage = (): { email: string; token: string } | null => {
-  const user = localStorage.getItem('user');
+  const user = localStorage.getItem(LOCALSTORAGE_KEYS.USER);
 
   if (user) {
     try {

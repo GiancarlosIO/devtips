@@ -38,11 +38,13 @@ const Home: React.FunctionComponent<RouteComponentProps> = () => {
     }
 
     return (
-      <TipList>
-        {data.tips.map(tip => (
-          <Tip {...tip} key={tip.id} />
-        ))}
-      </TipList>
+      <div>
+        <TipList>
+          {data.tips.map(tip => (
+            <Tip {...tip} key={tip.id} />
+          ))}
+        </TipList>
+      </div>
     );
   };
 
