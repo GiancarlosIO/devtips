@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import include
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 from django.contrib import admin
@@ -26,19 +27,24 @@ from graphene_django.views import GraphQLView
 from core.views import BaseView
 
 urls_base = [
-    path('admin/', admin.site.urls),
+    path('admin', admin.site.urls),
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
     path('favicon.ico', RedirectView.as_view(
             url=staticfiles_storage.url('favicon/favicon.ico'),
         ),
         name='favicon',
     ),
+    path('api/v1/', include('rest_framework.urls')),
     # path('', BaseView.as_view(), name='base'),
+]
+
+urls_core = [
+    path('api/v1/', include('core.urls')),
 ]
 
 catch_all_urls = [
     path('', BaseView.as_view(), name='base'),
-    path('/', BaseView.as_view(), name='base'),
+    # path('/', BaseView.as_view(), name='base'),
     path('<path:name>/', BaseView.as_view(), name='base'),
 ]
 
@@ -46,6 +52,6 @@ if settings.DEBUG:
     urls_base = urls_base + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
-urls_base = urls_base + catch_all_urls
+urls_base = urls_base + urls_core + catch_all_urls
 
 urlpatterns = urls_base
