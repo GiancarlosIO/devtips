@@ -106,3 +106,6 @@ node_modules
 
 # webpack
 app/core/static/js
+
+# envs
+devtips.env
