@@ -14,12 +14,25 @@ const Right = styled.div`
   text-align: right;
 `;
 
+const Left = styled.div``;
+
+const Logo = styled.div`
+  background-color: ${props => props.theme.colors.mainColor};
+  width: fit-content;
+  padding: 8px 16px;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+`;
+
 const MainMenu: React.FunctionComponent = () => {
   const userContext = useUserContext();
 
   return (
     <Container>
-      <div>DevTips!</div>
+      <Left>
+        <Logo>DevTips!</Logo>
+      </Left>
       <Right>
         {userContext.user ? (
           <span>Hi {userContext.user.email}</span>
@@ -32,7 +45,7 @@ const MainMenu: React.FunctionComponent = () => {
               `}
               href="/auth/signin"
             >
-              Signup
+              Signin
             </a>
           </React.Fragment>
         )}
