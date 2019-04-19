@@ -183,6 +183,8 @@ STATICFILES_DIRS = [
 ]
 AWS_DEFAULT_ACL = None
 
-# Uncomment this to serve files from s3
+# only serve the static files from s3 if it is prod env
+# if not DEBUG:
+
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'core.storage_backends.MediaStorage'  # <-- here is where we reference it
