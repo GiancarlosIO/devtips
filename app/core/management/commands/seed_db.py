@@ -55,3 +55,6 @@ class Command(BaseCommand):
                     ext_word_list=ext_word_list
                 ),
             )
+        self.stdout.write(
+            self.style.SUCCESS('Success to seed the db')
+        )

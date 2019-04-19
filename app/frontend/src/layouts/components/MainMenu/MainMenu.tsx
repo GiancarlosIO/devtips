@@ -4,7 +4,7 @@ import { useUserContext } from 'src/contexts/UserContext';
 
 const Container = styled.div`
   padding: 16px 24px;
-  border-bottom: 1px solid ${props => props.theme.colors.whiteblue};
+  border-bottom: 1px solid rgba(83, 24, 184, 0.27);
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto;

@@ -1,45 +1,66 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { useMutation } from 'urql';
+import { Mutation } from 'react-apollo';
 
-import AuthForm from '../Shared/AuthForm';
 import { useUserContext } from 'src/contexts/UserContext';
 import UserProtectedComponent from 'src/Shared/Redirects/UserProtectedComponent';
+import parseGraphqlErrors from 'src/utils/parseGraphqlErrors';
+import AuthForm from '../Shared/AuthForm';
 
 import GET_AUTH_TOKEN_MUTATION from '../graphql/authTokenMutation.graphql';
 
 type AuthTokenResponse = {
   tokenAuth: {
     token: string;
-  }
-}
+  };
+};
 
 const SignIn: React.FunctionComponent<RouteComponentProps> = () => {
-  const [errorMutation, setErrorMutation] = React.useState('');
-  const [res, executeMutation] = useMutation<AuthTokenResponse>(GET_AUTH_TOKEN_MUTATION);
   const userContext = useUserContext();
+  const [errorFormated, setErrorFormated] = React.useState<string[]>([]);
 
   return (
-    <UserProtectedComponent currentPath="signin" redirectTo="/">
-      <AuthForm
-        error={errorMutation}
-        onSubmit={values => {
-          executeMutation(values).then(response => {
-            if (response.error) {
-              console.log('error to get the auth token', response.error);
-              setErrorMutation(response.error.message.replace(/\[GraphQL\]\s/, ''));
-            } else if (response.data) {
-              if (response.data.tokenAuth) {
-                userContext.setUser({ email: values.email, token: response.data.tokenAuth.token });
-              }
-            }
-          })
-        }}
-        title="Login to DevTips!"
-        buttonDisabled={res.fetching}
-      />
-    </UserProtectedComponent>
-  )
+    <Mutation<AuthTokenResponse, { email: string; password: string }>
+      mutation={GET_AUTH_TOKEN_MUTATION}
+    >
+      {(mutate, { loading }) => (
+        // UserProtectedComponent will redirect to home page if an user exists
+        <UserProtectedComponent currentPath="signin" redirectTo="/">
+          <AuthForm
+            graphqlErrors={errorFormated}
+            onSubmit={values => {
+              mutate({ variables: values })
+                .then(async response => {
+                  await setErrorFormated([]);
+                  if (response) {
+                    if (response.data.errors) {
+                      setErrorFormated(
+                        parseGraphqlErrors(response.data.errors),
+                      );
+                    } else if (response.data) {
+                      if (response.data.tokenAuth.token) {
+                        // set the user, so the UserProtectedComponent can redirecto to home page
+                        userContext.setUser({
+                          email: values.email,
+                          token: response.data.tokenAuth.token,
+                        });
+                      }
+                    }
+                  }
+                })
+                .catch(error => {
+                  // console.log({ error });
+                  setErrorFormated(parseGraphqlErrors(error));
+                });
+            }}
+            title="Login to DevTips!"
+            buttonDisabled={loading}
+            submitButtonText="Signin"
+          />
+        </UserProtectedComponent>
+      )}
+    </Mutation>
+  );
 };
 
 export default SignIn;

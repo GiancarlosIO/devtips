@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { useQuery } from 'urql';
+import { Query } from 'react-apollo';
 
 import { styled } from 'src/theme';
 import MainLayout from 'src/layouts/MainLayout';
@@ -20,35 +20,33 @@ const TipList = styled.div`
   }
 `;
 
-type QueryResponse = {
+type QueryData = {
   tips: TipType[];
 };
 
-const Home: React.FunctionComponent<RouteComponentProps> = () => {
-  const [{ fetching, error, data }] = useQuery<QueryResponse>({
-    query: GET_TIPS_QUERY,
-  });
+const Home: React.FunctionComponent<RouteComponentProps> = () => (
+  <MainLayout>
+    <Query<QueryData> query={GET_TIPS_QUERY}>
+      {({ loading, error, data }) => {
+        if (loading) {
+          return <h2>Loading...</h2>;
+        }
+        if (error) {
+          return <h2>An error has ocurred - {error}</h2>;
+        }
 
-  const render = () => {
-    if (fetching || !data) {
-      return <h2>Loading...</h2>;
-    }
-    if (error) {
-      return <h2>An error has ocurred - {error}</h2>;
-    }
-
-    return (
-      <div>
-        <TipList>
-          {data.tips.map(tip => (
-            <Tip {...tip} key={tip.id} />
-          ))}
-        </TipList>
-      </div>
-    );
-  };
-
-  return <MainLayout>{render()}</MainLayout>;
-};
+        return (
+          <div>
+            <TipList>
+              {data.tips.map(tip => (
+                <Tip {...tip} key={tip.id} />
+              ))}
+            </TipList>
+          </div>
+        );
+      }}
+    </Query>
+  </MainLayout>
+);
 
 export default Home;

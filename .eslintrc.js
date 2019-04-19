@@ -101,7 +101,8 @@ module.exports = {
         ]
       }
     ],
-    "react/display-name": 1
+    "react/display-name": 1,
+    "react/no-array-index-key": 0
   },
   "settings": {
     "import/resolver": {

@@ -29,7 +29,7 @@ const base = {
       cacheGroups: {
         vendor: {
           name: 'vendor',
-          test: /[\\/]node_modules[\\/](react|react-dom|styled-components|urql|@reach\/router)[\\/]/,
+          test: /[\\/]node_modules[\\/](react|react-dom|styled-components|apollo-client|react-apollo|@reach\/router)[\\/]/,
           chunks: 'all',
         },
       },

@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Router } from '@reach/router';
-import { Provider, createClient } from 'urql';
+import { ApolloProvider } from 'react-apollo';
 import { hot } from 'react-hot-loader/root';
+
+import Client from 'src/ApolloClient/';
 
 // apps/pages
 import Authentication from 'src/pages/Authentication';
@@ -13,46 +15,43 @@ import theme, { ThemeProvider, createGlobalStyle } from 'src/theme';
 // contexts
 import { UserContextProvider } from 'src/contexts/UserContext';
 
-// utils / helpers
-import getUserFromLocalStorage from 'src/utils/getUserFromLocalStorage';
-// import getCookie from 'src/utils/getCookie';
-
 const GlobalStyle = createGlobalStyle`
   html, body, * {
     font-family: 'Quicksand', sans-serif;
     font-size: 16px;
+    scroll-behavior: smooth;
   }
 `;
 
-const client = createClient({
-  url: '/graphql/',
-  fetchOptions: () => {
-    // const csrftoken = getCookie('csrftoken');
-    const user = getUserFromLocalStorage();
-    const headers = { Authorization: '' };
+// const client = createClient({
+//   url: '/graphql/',
+//   fetchOptions: () => {
+//     // const csrftoken = getCookie('csrftoken');
+//     const user = getUserFromLocalStorage();
+//     const headers = { Authorization: '' };
 
-    if (user) {
-      headers.Authorization = `JWT ${user.token}`;
-    }
+//     if (user) {
+//       headers.Authorization = `JWT ${user.token}`;
+//     }
 
-    // we don't need this because we are disabling the csrf to all graphql requests
-    // if (csrftoken) {
-    //   headers['X-CSRFToken'] = csrftoken;
-    // } else {
-    //   delete headers['X-CSRFToken'];
-    // }
+//     // we don't need this because we are disabling the csrf to all graphql requests
+//     // if (csrftoken) {
+//     //   headers['X-CSRFToken'] = csrftoken;
+//     // } else {
+//     //   delete headers['X-CSRFToken'];
+//     // }
 
-    return {
-      headers: {
-        ...headers,
-      },
-    };
-  },
-});
+//     return {
+//       headers: {
+//         ...headers,
+//       },
+//     };
+//   },
+// });
 
 const App: React.FunctionComponent = (): React.ReactElement => (
   <ThemeProvider theme={theme}>
-    <Provider value={client}>
+    <ApolloProvider client={Client}>
       <UserContextProvider>
         <div>
           <Router>
@@ -62,7 +61,7 @@ const App: React.FunctionComponent = (): React.ReactElement => (
           <GlobalStyle />
         </div>
       </UserContextProvider>
-    </Provider>
+    </ApolloProvider>
   </ThemeProvider>
 );
 
