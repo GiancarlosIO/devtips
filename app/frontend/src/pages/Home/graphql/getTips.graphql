@@ -1,11 +1,15 @@
 query tips {
   tips {
-    id
-    user {
-      email
+    edges {
+      node {
+        id
+        user {
+          email
+        }
+        title
+        slug
+        description
+      }
     }
-    title
-    slug
-    description
   }
 }

@@ -27,7 +27,7 @@ from graphene_django.views import GraphQLView
 from core.views import BaseView
 
 urls_base = [
-    path('admin', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
     path('favicon.ico', RedirectView.as_view(
             url=staticfiles_storage.url('favicon/favicon.ico'),

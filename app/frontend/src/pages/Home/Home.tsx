@@ -15,13 +15,17 @@ const TipList = styled.div`
   border-radius: 8px;
   & > div {
     &:not(:first-child) {
-      border-top: 1px solid ${props => props.theme.colors.whiteblue};1
+      border-top: 1px solid ${props => props.theme.colors.whiteblue};
     }
   }
 `;
 
 type QueryData = {
-  tips: TipType[];
+  tips: {
+    edges: {
+      node: TipType;
+    }[];
+  };
 };
 
 const Home: React.FunctionComponent<RouteComponentProps> = () => (
@@ -35,11 +39,13 @@ const Home: React.FunctionComponent<RouteComponentProps> = () => (
           return <h2>An error has ocurred - {error}</h2>;
         }
 
+        console.log({ data });
+
         return (
           <div>
             <TipList>
-              {data.tips.map(tip => (
-                <Tip {...tip} key={tip.id} />
+              {data.tips.edges.map(tip => (
+                <Tip {...tip.node} key={tip.node.id} />
               ))}
             </TipList>
           </div>
