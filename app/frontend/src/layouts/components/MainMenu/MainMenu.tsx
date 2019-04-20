@@ -25,8 +25,18 @@ const Logo = styled.div`
   border-radius: 8px;
 `;
 
+const Signout = styled.button`
+  background-color: transparent;
+`;
+
 const MainMenu: React.FunctionComponent = () => {
   const userContext = useUserContext();
+
+  const onSignout = e => {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.reload();
+  };
 
   return (
     <Container>
@@ -35,7 +45,10 @@ const MainMenu: React.FunctionComponent = () => {
       </Left>
       <Right>
         {userContext.user ? (
-          <span>Hi {userContext.user.email}</span>
+          <div>
+            <span>Hi {userContext.user.email}</span>
+            <Signout onClick={onSignout}>Signout</Signout>
+          </div>
         ) : (
           <React.Fragment>
             <a href="/auth/signup">Signup</a>
