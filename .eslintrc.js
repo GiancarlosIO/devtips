@@ -102,7 +102,9 @@ module.exports = {
       }
     ],
     "react/display-name": 1,
-    "react/no-array-index-key": 0
+    "react/no-array-index-key": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "settings": {
     "import/resolver": {
