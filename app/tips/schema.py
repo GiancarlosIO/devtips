@@ -1,9 +1,9 @@
 import graphene
-# import django_filters
+import django_filters
 from graphql import GraphQLError
 
 from graphene_django.filter import DjangoFilterConnectionField
-# from django.db.models import Q
+from django.db.models import Q
 from graphene_django.types import DjangoObjectType
 
 from .models import Tip
@@ -19,11 +19,7 @@ from .models import Tip
 # # slug = graphene.String(required=True)
 # description = graphene.String(required=True)
 
-# it is a custom filter, we don't need this today
-# class TipFilter(django_filters.FilterSet):
-#     class Meta:
-#         model = Tip
-#         fields = ['title', 'description']
+
 class CustomNode(graphene.relay.Node):
     '''
     This class removes base64 unique ids and operates with plain ID's
@@ -88,31 +84,28 @@ class TipNode(NodeWithOriginalId, GetNodeById, DjangoObjectType):
     class Meta:
         model = Tip
         # filter_fields = ['title', 'description']
-        # Allow for some more advanced filtering here
         # filter_fields = {
-        #     'name': ['exact', 'icontains', 'istartswith'],
-        #     'notes': ['exact', 'icontains'],
-        #     'category': ['exact'],
-        #     'category__name': ['exact'],
+        #     'title': ['exact', 'icontains', 'istartswith'],
+        #     'description': ['exact', 'icontains', 'istartswith'],
         # }
-        filter_fields = {
-            'title': ['exact', 'icontains', 'istartswith'],
-            'description': ['exact', 'icontains', 'istartswith'],
-        }
         interfaces = (graphene.relay.Node, )
 
-    # @classmethod
-    # def get_node(cls, id, info):
-    #     try:
-    #         id = int(id)
-    #     except ValueError:
-    #         raise GraphQLError('Invalid object id. It should be a valid integer!')
 
-    #     try:
-    #         tip = cls._meta.model.objects.get(id=id)
-    #         return tip
-    #     except cls._meta.model.DoesNotExist:
-    #         return None
+# it is a custom filter, we don't need this today
+class TipFilter(django_filters.FilterSet):
+    search = django_filters.CharFilter(method='filter_search')
+
+    class Meta:
+        model = Tip
+        fields = ['search']
+
+    def filter_search(self, queryset, name, value):
+        return queryset.filter(
+            # Q(title__unaccent__icontains=value) |
+            # Q(description__unaccent__icontains=value)
+            Q(title__unaccent__icontains=value) |
+            Q(description__icontains=value)
+        ).order_by('-id')
 
 
 class CreateTip(graphene.relay.ClientIDMutation):
@@ -141,7 +134,7 @@ class CreateTip(graphene.relay.ClientIDMutation):
 class Query(graphene.ObjectType):
     # tip = graphene.relay.Node.Field(TipNode)
     tip = CustomNode.Field(TipNode)
-    tips = DjangoFilterConnectionField(TipNode)
+    tips = DjangoFilterConnectionField(TipNode, filterset_class=TipFilter)
     # tips = graphene.List(
     #     TipType,
     #     search=graphene.String(),

@@ -1,7 +1,7 @@
 import uuid
 
 from django.db import models
-# from django.utils.text import slugify
+from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 
 from core.models import Image
@@ -15,6 +15,7 @@ class Tip(models.Model):
     title = models.CharField(max_length=255, null=False)
     slug = models.CharField(max_length=255, unique=True, null=True, blank=True)
     description = models.TextField(blank=True)
+    url = models.CharField(max_length=255, null=False, blank=True)
     image = models.OneToOneField(
         Image,
         on_delete=models.CASCADE,
@@ -31,6 +32,7 @@ class Tip(models.Model):
 
     def save(self, *args, **kwargs):
         unique_id = uuid.uuid4().hex
-        # slug = slugify(self.title)
-        self.slug = unique_id
+        slug = slugify(self.title)
+        self.slug = f'{slug}-{unique_id}'
+        self.url = f'/{self.slug}/'
         super(Tip, self).save(*args, **kwargs)
