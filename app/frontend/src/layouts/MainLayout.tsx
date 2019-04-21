@@ -4,11 +4,11 @@ import { Container } from 'src/ui/Grid/Container';
 import MainMenu from './components/MainMenu';
 
 const MainLayout: React.FunctionComponent = ({ children }) => (
-  <React.Fragment>
+  <Container>
     <MainMenu />
-    <Container>{children}</Container>
+    {children}
     <h2>Footer</h2>
-  </React.Fragment>
+  </Container>
 );
 
 export default MainLayout;

@@ -1,0 +1,12 @@
+query getTips($search: String!) {
+  tips(search: $search) {
+    edges	{
+      node {
+        originalId
+        description
+        title
+        url
+      }
+    }
+  }
+}

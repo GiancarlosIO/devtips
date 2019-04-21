@@ -2,8 +2,10 @@ import * as React from 'react';
 import { styled, css } from 'src/theme/';
 import { useUserContext } from 'src/contexts/UserContext';
 
+import Search from './Search';
+
 const Container = styled.div`
-  padding: 16px 24px;
+  padding: 16px 0;
   border-bottom: 1px solid rgba(83, 24, 184, 0.27);
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -14,7 +16,10 @@ const Right = styled.div`
   text-align: right;
 `;
 
-const Left = styled.div``;
+const Left = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const Logo = styled.div`
   background-color: ${props => props.theme.colors.mainColor};
@@ -27,6 +32,7 @@ const Logo = styled.div`
 
 const Signout = styled.button`
   background-color: transparent;
+  margin-left: 8px;
 `;
 
 const MainMenu: React.FunctionComponent = () => {
@@ -42,6 +48,7 @@ const MainMenu: React.FunctionComponent = () => {
     <Container>
       <Left>
         <Logo>DevTips!</Logo>
+        <Search />
       </Left>
       <Right>
         {userContext.user ? (
